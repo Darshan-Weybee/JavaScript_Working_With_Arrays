@@ -195,6 +195,7 @@ console.log(movements);
 
 console.log(movements.includes(-130));
 
+// some
 const anyDeposits = movements.some(mov => mov >0);
 console.log(anyDeposits);
 
@@ -210,8 +211,133 @@ const arrDeep = [[[1,2],3],[4,[5,6]],7,8];
 console.log(arrDeep.flat(2));
 console.log(arrDeep);
 
-// flatMap
 const overallBalance = accounts.map(acc => acc.movements).flat().reduce((acc,mov)=> acc+mov);
 console.log(overallBalance);
+
+// flatMap
 const overallBalance2 = accounts.flatMap(acc => acc.movements).reduce((acc, mov)=> acc+mov);
 console.log(overallBalance2);
+
+// sort  it mutet the original array
+// it also sort the original array
+// and it only works for string
+const owner = ["jonas", "zach","adam", "martha"];
+console.log(owner.sort());
+console.log(owner);
+
+// for arrays we have to write callback function in sort method
+
+// return < 0 , A, B (keep order)
+// return > 0 , B, A (switch order)
+
+// Ascending
+movements.sort((a,b) => {
+    if(a > b) return 1;
+    if(a < b) return -1;
+});
+console.log(movements);
+// movements.sort((a,b) => a-b);
+
+// Descending
+movements.sort((a, b) => {
+    if(a > b) return -1;
+    if(a < b)return 1;
+});
+console.log(movements);
+movements.sort((a,b) => b-a);
+
+
+// Different array methods
+console.log([1,2,3,4,5,6,7,8,9]);
+console.log(new Array(1,2,3,4,5,6,7,8,9));
+
+// if only one argument pass to the array constructor than it creates the empty array with that length
+// like in below example it will create empty array of length 7
+const x = new Array(7);
+console.log(x);
+
+// fill  it mutet the original array
+x.fill(1); // it fill the array with 1 to all elements
+x.fill(1, 3) // it fill the array from strat index (here 3)
+x.fill(1, 3, 5) // it fill the array from start index to end index (here 3 to 5)
+// like slice method above example
+
+// to edit the element of the array
+const arrf = [1,2,3,4,5,6,7,8,9]; 
+console.log(arrf);
+arrf.fill(23, 2, 6);
+console.log(arrf);
+
+// from 
+// it will call on constructor of the array Array.from()
+// in that method first argument is length defined as property and value and second parameter is callback function
+
+const y = Array.from({length: 7}, () => 1);
+console.log(y);
+
+const z = Array.from({length: 7}, (cur, i) => i+1);
+console.log(z);
+
+const dice = Array.from({length: 100}, () => Math.trunc(Math.random *6)+1);
+console.log(dice);
+
+
+// const movementUI = Array.from(document.querySelectorAll(".movements__value"), el => Number(el.textContent.replace("","")));
+// console.log(movementUI);
+
+// const movementUI2 = [...document.querySelectorAll(".movements__value")];
+
+
+//   Some methods
+
+//  ===> To mutet the original array
+/* 
+.push
+.unshift
+.pop
+.shift
+.splice
+.reverse
+.sort
+.fill*/
+
+//  ===> A new  array
+/* 
+.map
+.filter
+.slice
+.concat
+.flat
+.flatMap
+*/
+
+//  ===> An array index
+/* 
+.indexOf
+.findIndex
+.find
+*/
+
+//  ===> Know if array includes
+/* 
+.includes
+.some
+.every
+.join
+*/
+
+//  ===> A new string
+/* 
+.join
+*/
+
+//  ===> To transform to value
+/* 
+.reduce
+*/
+
+//  ===> To just loop array
+/* 
+.forEach
+*/
+

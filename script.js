@@ -64,10 +64,11 @@ const inputClosePin = document.querySelector('.form__input--pin');
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
-function displayMovements(movements){
+function displayMovements(movements, sort = false){
   containerMovements.innerHTML = "";
   
-    movements.forEach(function(mov, i){
+  const movs = sort ? movements.slice().sort((a,b) => a-b) : movements;
+    movs.forEach(function(mov, i){
       const type = mov > 0 ? "deposit" : "withdrawal";
         const html = `
         <div class="movements__row">
@@ -186,6 +187,12 @@ btnClose.addEventListener("click", function(e){
   inputCloseUsername.value = inputClosePin.value = "";
 });
 
+let sorted = false;
+btnSort.addEventListener("click", function(e){
+  e.preventDefault();
+  displayMovements(currentAccount.movements, !sorted);
+  sorted = !sorted;
+});
 
 
 /////////////////////////////////////////////////
@@ -198,3 +205,61 @@ btnClose.addEventListener("click", function(e){
 //   ['GBP', 'Pound sterling'],
 // ]);
 /////////////////////////////////////////////////
+
+//  1)
+const bankDepositSum = accounts
+        .flatMap(acc => acc.movements)
+        .filter(mov => mov > 0)
+        .reduce((acc, mov)=> acc+mov ,0);
+
+console.log(bankDepositSum);
+
+// 2)
+const numDeposit1000 = accounts
+          .flatMap(acc => acc.movements)
+          .filter(mov => mov >=1000)
+          .length;
+console.log(numDeposit1000);
+
+const numDeposit1001 = accounts
+          .flatMap(acc => acc.movements)
+          .reduce((count, cur) => (cur >= 1000 ? count + 1: count),0);
+console.log(numDeposit1001);
+
+let a = 10;
+console.log(a++);
+console.log(a);
+
+let b = 10;
+console.log(++b);
+console.log(b);
+
+// 3)
+const {deposits, withdrawls} = accounts
+      .flatMap(acc => acc.movements)
+      .reduce((acc, cur) => {cur > 0? acc.deposits += cur : acc.withdrawls += cur
+      return acc}, {deposits: 0, withdrawls: 0});
+console.log(deposits, withdrawls);
+
+const {deposits1, withdrawls1} = accounts
+      .flatMap(acc => acc.movements)
+      .reduce((acc, cur) => { acc[ cur > 0 ? "deposits1": "withdrawls1"] += cur;
+      return acc}, {deposits1: 0, withdrawls1: 0});
+console.log(deposits1, withdrawls1);
+
+
+// 4)
+function convertTitleCase(title){
+  const capitalize = str => str[0].toUpperCase() + str.slice(1);
+   const exception = ["a", "an", "and", "the", "but","or","on","in","with"];
+   const titleCase = title
+          .toLowerCase()
+          .split(" ")
+          .map(word => exception.includes(word) ? word : capitalize(word))
+          .join(" ");
+   return capitalize(titleCase);
+}
+
+console.log(convertTitleCase("this is a nice title"));
+console.log(convertTitleCase("this is a LONG title but not too long"));
+console.log(convertTitleCase("and there is another title with an EXAMPLE"));
